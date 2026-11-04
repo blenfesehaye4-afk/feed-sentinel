@@ -1,0 +1,23 @@
+[
+  {
+    "id": "github_blog",
+    "name": "GitHub Engineering",
+    "url": "https://github.blog/engineering/feed/",
+    "category": "engineering",
+    "enabled": true
+  },
+  {
+    "id": "python_insider",
+    "name": "Python Insider",
+    "url": "https://pythoninsider.blogspot.com/feeds/posts/default",
+    "category": "python",
+    "enabled": true
+  },
+  {
+    "id": "hacker_news",
+    "name": "Hacker News Frontpage",
+    "url": "https://news.ycombinator.com/rss",
+    "category": "technology",
+    "enabled": true
+  }
+]
