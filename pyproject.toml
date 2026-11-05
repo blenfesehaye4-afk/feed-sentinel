@@ -40,6 +40,10 @@ dev = [
 [project.scripts]
 feed-sentinel = "feed_sentinel.cli:main"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["feed_sentinel*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
