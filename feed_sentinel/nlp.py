@@ -1,4 +1,4 @@
-"""Natural language processing: trend detection, keywords, and sentiment scoring."""
+"""Natural language processing: trend detection, keywords, reading time, and sentiment scoring."""
 
 import math
 import re
@@ -45,7 +45,7 @@ NEGATIVE_LEXICON = {
 
 
 class TrendAnalyzer:
-    """Extracts top keywords, sentiment polarity, and emerging trends."""
+    """Extracts top keywords, sentiment polarity, reading duration, and emerging trends."""
 
     @staticmethod
     def tokenize(text: str) -> List[str]:
@@ -53,6 +53,21 @@ class TrendAnalyzer:
         cleaned = re.sub(r"[^a-zA-Z0-9\s-]", " ", text.lower())
         tokens = [t for t in cleaned.split() if len(t) > 2 and t not in STOPWORDS]
         return tokens
+
+    @staticmethod
+    def estimate_reading_time(text: str) -> int:
+        """Estimate reading time in minutes (assuming ~200 WPM average reading speed)."""
+        words = len(text.split())
+        return max(1, math.ceil(words / 200))
+
+    @staticmethod
+    def sentiment_label(score: float) -> str:
+        """Categorize sentiment polarity score into human-friendly tag."""
+        if score >= 0.15:
+            return "positive"
+        elif score <= -0.15:
+            return "negative"
+        return "neutral"
 
     @classmethod
     def compute_sentiment(cls, text: str) -> float:
@@ -87,7 +102,6 @@ class TrendAnalyzer:
         if not articles:
             return []
 
-        doc_count = len(articles)
         word_doc_freq = defaultdict(int)
         word_sentiment_list = defaultdict(list)
         word_headlines = defaultdict(list)
@@ -100,7 +114,6 @@ class TrendAnalyzer:
                 if len(word_headlines[word]) < 3:
                     word_headlines[word].append(art.title)
 
-        # Rank words that appear in multiple articles or prominent count
         ranked = sorted(
             word_doc_freq.items(),
             key=lambda item: (item[1], -len(item[0])),
